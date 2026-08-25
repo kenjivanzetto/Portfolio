@@ -1,0 +1,1404 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Kenji Terada — Développeur Front-End</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link
+    href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Inter:wght@400;500;600;700;800&family=Caveat:wght@600;700&display=swap"
+    rel="stylesheet">
+  <style>
+    :root {
+      --bg: #F3F5F7;
+      --bg-alt: #EAEDF1;
+      --card: #FFFFFF;
+      --ink: #14171C;
+      --ink-soft: #5B6472;
+      --line: #D9DEE4;
+      --blue: #3B6FE0;
+      --blue-soft: #EAF0FE;
+      --orange: #E08A3B;
+      --orange-soft: #FDF1E4;
+      --green: #2F9E6F;
+      --green-soft: #E9F7F0;
+      --dark: #14171C;
+      --dark-2: #1D2128;
+      --mono: 'JetBrains Mono', monospace;
+      --sans: 'Inter', sans-serif;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--ink);
+      font-family: var(--sans);
+      line-height: 1.5;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    img {
+      max-width: 100%;
+      display: block;
+    }
+
+    ::selection {
+      background: var(--blue);
+      color: #fff;
+    }
+
+    /* ---------- layout gutter ---------- */
+    .page {
+      position: relative;
+      max-width: 1080px;
+      margin: 0 auto;
+      padding: 0 32px;
+    }
+
+    .page::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: 8px;
+      width: 1px;
+      background: var(--line);
+    }
+
+    @media (max-width:720px) {
+      .page::before {
+        display: none;
+      }
+    }
+
+    .eyebrow {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-family: var(--mono);
+      font-size: 12.5px;
+      letter-spacing: .02em;
+      color: var(--ink-soft);
+      margin-bottom: 18px;
+    }
+
+    .eyebrow .num {
+      color: var(--blue);
+      font-weight: 600;
+    }
+
+    .eyebrow::after {
+      content: "";
+      flex: 1;
+      height: 1px;
+      background: var(--line);
+    }
+
+    section {
+      padding: 88px 0;
+    }
+
+    @media (max-width:720px) {
+      section {
+        padding: 56px 0;
+      }
+    }
+
+    h2.title {
+      font-family: var(--mono);
+      font-weight: 700;
+      font-size: clamp(24px, 3.4vw, 32px);
+      letter-spacing: -0.01em;
+      margin-bottom: 14px;
+    }
+
+    p.lede {
+      color: var(--ink-soft);
+      max-width: 560px;
+      font-size: 16px;
+      margin-bottom: 44px;
+    }
+
+    /* ---------- nav ---------- */
+    nav {
+      position: sticky;
+      top: 0;
+      z-index: 40;
+      background: rgba(243, 245, 247, .86);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid var(--line);
+    }
+
+    nav .inner {
+      max-width: 1080px;
+      margin: 0 auto;
+      padding: 16px 32px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .brand {
+      font-family: var(--mono);
+      font-weight: 600;
+      font-size: 15px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .brand .dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--green);
+      box-shadow: 0 0 0 3px var(--green-soft);
+    }
+
+    .navlinks {
+      display: flex;
+      gap: 28px;
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--ink-soft);
+    }
+
+    .navlinks a:hover {
+      color: var(--ink);
+    }
+
+    .nav-cta {
+      font-family: var(--mono);
+      font-size: 13px;
+      font-weight: 600;
+      background: var(--dark);
+      color: #fff;
+      padding: 9px 16px;
+      border-radius: 7px;
+    }
+
+    @media (max-width:720px) {
+      .navlinks {
+        display: none;
+      }
+    }
+
+    /* ---------- hero (terminal) ---------- */
+    .hero-wrap {
+      background: var(--dark);
+      border-bottom: 1px solid #000;
+    }
+
+    .hero {
+      max-width: 1080px;
+      margin: 0 auto;
+      padding: 72px 32px 64px;
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 40px;
+    }
+
+    .term {
+      background: var(--dark-2);
+      border: 1px solid #2A2F38;
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 20px 50px -20px rgba(0, 0, 0, .6);
+      max-width: 640px;
+    }
+
+    .term-bar {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 11px 14px;
+      background: #20242C;
+      border-bottom: 1px solid #2A2F38;
+    }
+
+    .term-bar span {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+    }
+
+    .term-bar .r {
+      background: #EE6A5F;
+    }
+
+    .term-bar .y {
+      background: #F4BF4F;
+    }
+
+    .term-bar .g {
+      background: #61C554;
+    }
+
+    .term-title {
+      margin-left: 8px;
+      font-family: var(--mono);
+      font-size: 12px;
+      color: #7A8394;
+    }
+
+    .term-body {
+      font-family: var(--mono);
+      font-size: 13.5px;
+      line-height: 1.85;
+      padding: 20px 20px 26px;
+      color: #D6DAE1;
+      min-height: 190px;
+    }
+
+    .term-body .prompt {
+      color: #61C554;
+    }
+
+    .term-body .out {
+      color: #8AB4F8;
+    }
+
+    .term-body .muted {
+      color: #7A8394;
+    }
+
+    .cursor {
+      display: inline-block;
+      width: 7px;
+      height: 15px;
+      background: #D6DAE1;
+      margin-left: 2px;
+      vertical-align: -2px;
+      animation: blink 1s step-end infinite;
+    }
+
+    @keyframes blink {
+      50% {
+        opacity: 0;
+      }
+    }
+
+    .hero-copy h1 {
+      font-family: var(--mono);
+      font-weight: 700;
+      color: #fff;
+      font-size: clamp(28px, 4.4vw, 44px);
+      line-height: 1.15;
+      letter-spacing: -0.015em;
+      max-width: 640px;
+      margin-bottom: 18px;
+    }
+
+    .hero-copy h1 .accent {
+      color: #8AB4F8;
+    }
+
+    .hero-copy p {
+      color: #9AA3B2;
+      font-size: 16.5px;
+      max-width: 520px;
+      margin-bottom: 30px;
+    }
+
+    .hero-tags {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-bottom: 34px;
+    }
+
+    .tag {
+      font-family: var(--mono);
+      font-size: 12px;
+      color: #B8C0CC;
+      border: 1px solid #2E333D;
+      padding: 5px 10px;
+      border-radius: 6px;
+    }
+
+    .hero-cta {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      font-family: var(--sans);
+      font-weight: 600;
+      font-size: 14.5px;
+      padding: 13px 22px;
+      border-radius: 8px;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      transition: transform .15s ease;
+    }
+
+    .btn:hover {
+      transform: translateY(-1px);
+    }
+
+    .btn-primary {
+      background: var(--orange);
+      color: #1D1300;
+    }
+
+    .btn-ghost {
+      background: transparent;
+      color: #fff;
+      border: 1px solid #343A45;
+    }
+
+    /* ---------- about ---------- */
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1.1fr .9fr;
+      gap: 56px;
+      align-items: start;
+    }
+
+    @media (max-width:720px) {
+      .about-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .about-text p {
+      color: var(--ink-soft);
+      margin-bottom: 16px;
+      font-size: 15.5px;
+    }
+
+    .about-text strong {
+      color: var(--ink);
+    }
+
+    .stat-card {
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      padding: 22px 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .stat-list {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+    }
+
+    .stat-num {
+      font-family: var(--mono);
+      font-weight: 700;
+      font-size: 26px;
+      color: var(--blue);
+    }
+
+    .stat-label {
+      font-size: 13px;
+      color: var(--ink-soft);
+    }
+
+    /* ---------- skills ---------- */
+    .skills-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 14px;
+    }
+
+    @media (max-width:720px) {
+      .skills-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    .skill {
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      padding: 18px;
+      font-family: var(--mono);
+      font-size: 13.5px;
+    }
+
+    .skill .lvl {
+      margin-top: 10px;
+      height: 5px;
+      border-radius: 3px;
+      background: var(--bg-alt);
+      overflow: hidden;
+    }
+
+    .skill .lvl i {
+      display: block;
+      height: 100%;
+      border-radius: 3px;
+    }
+
+    /* ---------- projects ---------- */
+    .proj-card {
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      overflow: hidden;
+      margin-bottom: 26px;
+      display: grid;
+      grid-template-columns: 1.1fr .9fr;
+    }
+
+    .proj-card:last-child {
+      margin-bottom: 0;
+    }
+
+    @media (max-width:780px) {
+      .proj-card {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .mock {
+      background: var(--bg-alt);
+      border-right: 1px solid var(--line);
+      padding: 0;
+    }
+
+    @media (max-width:780px) {
+      .mock {
+        border-right: none;
+        border-bottom: 1px solid var(--line);
+      }
+    }
+
+    .mock-bar {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      padding: 10px 12px;
+      background: #fff;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .mock-bar span {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--line);
+    }
+
+    .mock-url {
+      margin-left: 8px;
+      font-family: var(--mono);
+      font-size: 10.5px;
+      color: var(--ink-soft);
+      background: var(--bg-alt);
+      padding: 3px 10px;
+      border-radius: 5px;
+      flex: 1;
+    }
+
+    .mock-canvas {
+      padding: 22px;
+    }
+
+    .mock-canvas .m-nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 18px;
+    }
+
+    .mock-canvas .m-logo {
+      width: 64px;
+      height: 9px;
+      border-radius: 3px;
+    }
+
+    .mock-canvas .m-links {
+      display: flex;
+      gap: 8px;
+    }
+
+    .mock-canvas .m-links span {
+      width: 26px;
+      height: 6px;
+      border-radius: 3px;
+      background: var(--line);
+    }
+
+    .mock-canvas .m-hero-title {
+      height: 14px;
+      width: 78%;
+      border-radius: 3px;
+      margin-bottom: 9px;
+    }
+
+    .mock-canvas .m-hero-sub {
+      height: 8px;
+      width: 55%;
+      border-radius: 3px;
+      background: var(--line);
+      margin-bottom: 18px;
+    }
+
+    .mock-canvas .m-btn {
+      width: 88px;
+      height: 24px;
+      border-radius: 6px;
+      margin-bottom: 20px;
+    }
+
+    .mock-canvas .m-cards {
+      display: flex;
+      gap: 8px;
+    }
+
+    .mock-canvas .m-cards div {
+      flex: 1;
+      height: 46px;
+      border-radius: 6px;
+      background: #fff;
+      border: 1px solid var(--line);
+    }
+
+    /* restaurant mock: menu list */
+    .mock-canvas.restaurant .m-menu {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-top: 6px;
+    }
+
+    .mock-canvas.restaurant .m-menu-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .mock-canvas.restaurant .m-menu-photo {
+      width: 38px;
+      height: 38px;
+      border-radius: 8px;
+      background: var(--orange-soft);
+      flex-shrink: 0;
+    }
+
+    .mock-canvas.restaurant .m-menu-lines {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .mock-canvas.restaurant .m-menu-lines span {
+      display: block;
+      height: 7px;
+      border-radius: 3px;
+      background: var(--line);
+    }
+
+    .mock-canvas.restaurant .m-menu-lines span:last-child {
+      width: 40%;
+    }
+
+    .mock-canvas.restaurant .m-menu-price {
+      width: 32px;
+      height: 16px;
+      border-radius: 5px;
+      background: var(--orange);
+      flex-shrink: 0;
+    }
+
+    /* saas mock: feature grid */
+    .mock-canvas.saas .m-feat-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin-top: 16px;
+    }
+
+    .mock-canvas.saas .m-feat {
+      background: #fff;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 12px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .mock-canvas.saas .m-feat-icon {
+      width: 20px;
+      height: 20px;
+      border-radius: 6px;
+      background: var(--blue);
+    }
+
+    .mock-canvas.saas .m-feat span {
+      display: block;
+      height: 6px;
+      border-radius: 3px;
+      background: var(--line);
+    }
+
+    .mock-canvas.saas .m-feat span:first-of-type {
+      width: 85%;
+    }
+
+    .mock-canvas.saas .m-feat span:last-of-type {
+      width: 55%;
+    }
+
+    /* debug mock: before / after split */
+    .mock-canvas.debug .m-split {
+      display: flex;
+      margin-top: 10px;
+      border-radius: 8px;
+      overflow: hidden;
+      border: 1px solid var(--line);
+    }
+
+    .mock-canvas.debug .m-half {
+      flex: 1;
+      padding: 14px;
+      display: flex;
+      flex-direction: column;
+      gap: 11px;
+    }
+
+    .mock-canvas.debug .m-half.before {
+      background: #FCEBEA;
+    }
+
+    .mock-canvas.debug .m-half.after {
+      background: var(--green-soft);
+    }
+
+    .mock-canvas.debug .m-half-label {
+      font-family: var(--mono);
+      font-size: 10px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: .03em;
+    }
+
+    .mock-canvas.debug .m-half.before .m-half-label {
+      color: #C0392B;
+    }
+
+    .mock-canvas.debug .m-half.after .m-half-label {
+      color: var(--green);
+    }
+
+    .mock-canvas.debug .m-half-row {
+      display: flex;
+      align-items: center;
+      gap: 9px;
+    }
+
+    .mock-canvas.debug .m-half-lines {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 7px;
+    }
+
+    .mock-canvas.debug .m-half span.line {
+      display: block;
+      height: 6px;
+      border-radius: 3px;
+    }
+
+    .mock-canvas.debug .m-half.before span.line {
+      background: #F3B9B2;
+    }
+
+    .mock-canvas.debug .m-half.after span.line {
+      background: #B9E4CE;
+    }
+
+    .mock-canvas.debug .m-half.before span.line.crooked {
+      transform: rotate(-3deg);
+    }
+
+    .mock-canvas.debug .m-half.before span.line.shift {
+      margin-left: 16px;
+      width: 38%;
+    }
+
+    .mock-canvas.debug .m-broken-img {
+      width: 32px;
+      height: 32px;
+      border-radius: 6px;
+      border: 1.5px dashed #C0392B;
+      background: #fff;
+      position: relative;
+      flex-shrink: 0;
+      transform: rotate(-4deg);
+    }
+
+    .mock-canvas.debug .m-broken-img::before,
+    .mock-canvas.debug .m-broken-img::after {
+      content: "";
+      position: absolute;
+      top: 5px;
+      bottom: 5px;
+      left: 50%;
+      width: 1.5px;
+      background: #C0392B;
+    }
+
+    .mock-canvas.debug .m-broken-img::before {
+      transform: rotate(45deg);
+    }
+
+    .mock-canvas.debug .m-broken-img::after {
+      transform: rotate(-45deg);
+    }
+
+    .mock-canvas.debug .m-ok-img {
+      width: 32px;
+      height: 32px;
+      border-radius: 6px;
+      border: 1.5px solid var(--green);
+      background: #fff;
+      position: relative;
+      flex-shrink: 0;
+    }
+
+    .mock-canvas.debug .m-ok-img::after {
+      content: "";
+      position: absolute;
+      left: 50%;
+      top: 45%;
+      width: 6px;
+      height: 10px;
+      border-right: 2px solid var(--green);
+      border-bottom: 2px solid var(--green);
+      transform: translate(-50%, -50%) rotate(45deg);
+    }
+
+    .mock-canvas.debug .m-broken-btn {
+      width: 58px;
+      height: 16px;
+      border-radius: 5px;
+      background: #E4948A;
+      position: relative;
+      transform: rotate(4deg) translateX(6px);
+      align-self: flex-start;
+    }
+
+    .mock-canvas.debug .m-broken-btn::after {
+      content: "";
+      position: absolute;
+      left: 2px;
+      right: 2px;
+      top: 50%;
+      height: 2px;
+      background: #C0392B;
+      transform: translateY(-1px);
+    }
+
+    .mock-canvas.debug .m-fixed-wrap {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+    }
+
+    .mock-canvas.debug .m-fixed-btn {
+      width: 58px;
+      height: 16px;
+      border-radius: 5px;
+      background: var(--green);
+    }
+
+    .mock-canvas.debug .m-fixed-check {
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+      background: var(--green);
+      position: relative;
+      flex-shrink: 0;
+    }
+
+    .mock-canvas.debug .m-fixed-check::after {
+      content: "";
+      position: absolute;
+      left: 50%;
+      top: 45%;
+      width: 4px;
+      height: 7px;
+      border-right: 1.5px solid #fff;
+      border-bottom: 1.5px solid #fff;
+      transform: translate(-50%, -50%) rotate(45deg);
+    }
+
+    .proj-info {
+      padding: 26px 28px;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .proj-info h3 {
+      font-family: var(--mono);
+      font-size: 17px;
+      margin-bottom: 8px;
+    }
+
+    .proj-info p {
+      color: var(--ink-soft);
+      font-size: 14.5px;
+      margin-bottom: 16px;
+    }
+
+    .proj-tags {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+      margin-top: auto;
+    }
+
+    .proj-tags span {
+      font-family: var(--mono);
+      font-size: 11px;
+      color: var(--ink-soft);
+      background: var(--bg-alt);
+      border: 1px solid var(--line);
+      padding: 4px 8px;
+      border-radius: 5px;
+    }
+
+    /* ---------- process ---------- */
+    .process-list {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .p-step {
+      display: grid;
+      grid-template-columns: 64px 1fr;
+      gap: 20px;
+      padding: 22px 0;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .p-step:last-child {
+      border-bottom: none;
+    }
+
+    .p-step .p-num {
+      font-family: var(--mono);
+      font-weight: 700;
+      font-size: 20px;
+      color: var(--line);
+    }
+
+    .p-step h4 {
+      font-size: 16px;
+      margin-bottom: 6px;
+    }
+
+    .p-step p {
+      color: var(--ink-soft);
+      font-size: 14.5px;
+      max-width: 520px;
+    }
+
+    /* ---------- testimonials ---------- */
+    .test-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+    }
+
+    @media (max-width:780px) {
+      .test-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .test-card {
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      padding: 22px;
+    }
+
+    .test-card .quote {
+      font-size: 14.5px;
+      color: var(--ink);
+      margin-bottom: 16px;
+    }
+
+    .test-card .who {
+      font-family: var(--mono);
+      font-size: 12px;
+      color: var(--ink-soft);
+    }
+
+    .stars {
+      color: var(--orange);
+      font-size: 13px;
+      margin-bottom: 10px;
+      letter-spacing: 2px;
+    }
+
+    /* ---------- contact ---------- */
+    .contact-box {
+      background: var(--dark);
+      border-radius: 16px;
+      padding: 52px 44px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 24px;
+      flex-wrap: wrap;
+    }
+
+    .contact-box h2 {
+      font-family: var(--mono);
+      color: #fff;
+      font-size: 26px;
+      margin-bottom: 8px;
+    }
+
+    .contact-box p {
+      color: #9AA3B2;
+      font-size: 15px;
+      max-width: 420px;
+    }
+
+    footer {
+      padding: 36px 0 60px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    footer p {
+      font-family: var(--mono);
+      font-size: 12px;
+      color: var(--ink-soft);
+    }
+
+    .reveal {
+      opacity: 0;
+      transform: translateY(14px);
+      transition: opacity .6s ease, transform .6s ease;
+    }
+
+    .reveal.in {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* ---------- sticky note (human touch) ---------- */
+    .sticky {
+      font-family: 'Caveat', cursive;
+      font-size: 19px;
+      line-height: 1.35;
+      color: #3D3212;
+      background: #FEF3C7;
+      border: 1px solid #EBD98F;
+      padding: 14px 18px 16px;
+      border-radius: 2px 10px 10px 10px;
+      transform: rotate(-2deg);
+      box-shadow: 0 8px 18px -10px rgba(0, 0, 0, .25);
+      max-width: 260px;
+      position: relative;
+    }
+
+    .sticky::before {
+      content: "📌";
+      position: absolute;
+      top: -12px;
+      left: 16px;
+      font-size: 18px;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .reveal {
+        opacity: 1;
+        transform: none;
+        transition: none;
+      }
+
+      .cursor {
+        animation: none;
+      }
+
+      html {
+        scroll-behavior: auto;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <nav>
+    <div class="inner">
+      <div class="brand"><span class="dot"></span>kenji.dev</div>
+      <div class="navlinks">
+        <a href="#about">À propos</a>
+        <a href="#skills">Compétences</a>
+        <a href="#work">Projets</a>
+        <a href="#process">Déroulement</a>
+      </div>
+      <a class="nav-cta" href="#contact">Me contacter →</a>
+    </div>
+  </nav>
+
+  <div class="hero-wrap">
+    <div class="hero">
+      <div class="term">
+        <div class="term-bar">
+          <span class="r"></span><span class="y"></span><span class="g"></span>
+        </div>
+        <div class="term-body" id="termBody"></div>
+      </div>
+      <div class="hero-copy">
+        <h1>Votre site mérite mieux qu'un menu mobile cassé.</h1>
+        <p>Je m'appelle Kenji, et je fais du développement front-end — c'est-à-dire que je m'occupe de tout ce que vous
+          voyez et avec quoi vous interagissez sur un site : les pages, les boutons, les menus. Je construis des landing
+          pages sur mesure (une page unique qui présente votre activité), et je répare aussi celles qui ont un petit
+          truc qui cloche quelque part. Pas de jargon technique, pas de factures gonflées — juste un site propre qui
+          fait ce qu'il doit faire.</p>
+        <div class="hero-tags">
+          <span class="tag">Structure du site</span><span class="tag">Mise en forme</span><span
+            class="tag">Interactions</span><span class="tag">Multi-écrans</span><span class="tag">Suivi des
+            versions</span>
+        </div>
+        <div class="hero-cta">
+          <a class="btn btn-primary" href="#contact">Démarrer un projet</a>
+          <a class="btn btn-ghost" href="#work">Voir mes projets</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <main class="page">
+
+    <section id="about">
+      <div class="eyebrow"><span class="num">01</span> Qui je suis</div>
+      <div class="about-grid">
+        <div class="about-text reveal">
+          <h2 class="title">Salut, moi c'est Kenji.</h2>
+          <p>Je me suis spécialisé dans deux choses : les <strong>landing pages</strong> — une page unique qui présente
+            votre activité — construites de zéro, et les petits problèmes agaçants qui traînent sur un site existant :
+            un menu qui casse sur mobile, une section légèrement mal alignée, un formulaire qui ne s'envoie pas. Ce
+            genre de truc.</p>
+          <p>Je suis autodidacte, du genre à passer un dimanche entier à corriger un détail de 2 pixels sur ma propre
+            configuration Linux avant de passer à autre chose. Cette même attention aux détails, je la mets dans chaque
+            projet que je prends en charge.</p>
+          <p>Ce que vous obtenez avec moi : des réponses rapides, des explications qui ont vraiment du sens (pas de
+            jargon pour faire pro), et du code que vous pouvez transmettre à quelqu'un d'autre sans avoir honte.</p>
+        </div>
+        <div class="reveal" style="display:flex; flex-direction:column; gap:22px; align-items:flex-start;">
+          <div class="stat-card">
+            <div class="stat-list">
+              <div>
+                <div class="stat-num">24h</div>
+                <div class="stat-label">pour vous répondre</div>
+              </div>
+              <div>
+                <div class="stat-num">100%</div>
+                <div class="stat-label">testé sur mobile</div>
+              </div>
+              <div>
+                <div class="stat-num">FR / EN</div>
+                <div class="stat-label">je travaille dans les deux</div>
+              </div>
+            </div>
+          </div>
+          <div class="sticky">En général je réponds plus vite le soir — c'est là que je code le mieux, honnêtement</div>
+        </div>
+      </div>
+    </section>
+
+    <section id="skills">
+      <div class="eyebrow"><span class="num">02</span> Ce que je sais faire</div>
+      <h2 class="title">Avec quoi je travaille</h2>
+      <p class="lede">Les bases essentielles pour construire un site qui fonctionne bien et qui a de l'allure —
+        expliquées simplement, sans jargon.</p>
+      <div class="skills-grid">
+        <div class="skill">HTML — la structure du site<div class="lvl"><i style="width:95%;background:var(--blue)"></i>
+          </div>
+        </div>
+        <div class="skill">CSS — les couleurs et la mise en page<div class="lvl"><i
+              style="width:92%;background:var(--orange)"></i></div>
+        </div>
+        <div class="skill">JavaScript — les animations et interactions<div class="lvl"><i
+              style="width:80%;background:var(--green)"></i></div>
+        </div>
+        <div class="skill">Un site qui s'adapte à tous les écrans<div class="lvl"><i
+              style="width:90%;background:var(--blue)"></i></div>
+        </div>
+        <div class="skill">Ça marche pareil sur tous les navigateurs<div class="lvl"><i
+              style="width:85%;background:var(--orange)"></i></div>
+        </div>
+        <div class="skill">Sauvegarde et historique du code (Git)<div class="lvl"><i
+              style="width:70%;background:var(--green)"></i></div>
+        </div>
+        <div class="skill">Un site rapide à charger<div class="lvl"><i style="width:78%;background:var(--blue)"></i>
+          </div>
+        </div>
+        <div class="skill">Un site utilisable par tout le monde<div class="lvl"><i
+              style="width:72%;background:var(--orange)"></i></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="work">
+      <div class="eyebrow"><span class="num">03</span> Mes projets</div>
+      <h2 class="title">Démonstrations & maquettes</h2>
+      <p class="lede">Trois exemples concrets de sites vitrines et d'optimisations réalisables pour votre activité.</p>
+
+      <div class="proj-card reveal">
+        <div class="mock">
+          <div class="mock-bar"><span></span><span></span><span></span>
+            <div class="mock-url">brasserie-lumen.fr</div>
+          </div>
+          <div class="mock-canvas restaurant">
+            <div class="m-nav">
+              <div class="m-logo" style="background:var(--orange)"></div>
+              <div class="m-links"><span></span><span></span><span></span></div>
+            </div>
+            <div class="m-hero-title" style="background:var(--orange-soft)"></div>
+            <div class="m-hero-sub"></div>
+            <div class="m-menu">
+              <div class="m-menu-item">
+                <div class="m-menu-photo"></div>
+                <div class="m-menu-lines"><span></span><span></span></div>
+                <div class="m-menu-price"></div>
+              </div>
+              <div class="m-menu-item">
+                <div class="m-menu-photo"></div>
+                <div class="m-menu-lines"><span></span><span></span></div>
+                <div class="m-menu-price"></div>
+              </div>
+              <div class="m-menu-item">
+                <div class="m-menu-photo"></div>
+                <div class="m-menu-lines"><span></span><span></span></div>
+                <div class="m-menu-price"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="proj-info">
+          <h3>Landing page — restaurant</h3>
+          <p>Page de présentation à une colonne pour un restaurant local : menu, horaires, réservation en un clic.
+            Refonte complète en HTML/CSS pur, sans framework, pour des temps de chargement instantanés.</p>
+          <div class="proj-tags"><span>Code simple</span><span>Style soigné</span><span>Adapté au mobile</span></div>
+        </div>
+      </div>
+
+      <div class="proj-card reveal">
+        <div class="mock">
+          <div class="mock-bar"><span></span><span></span><span></span>
+            <div class="mock-url">flowstack.app</div>
+          </div>
+          <div class="mock-canvas saas">
+            <div class="m-nav">
+              <div class="m-logo" style="background:var(--blue)"></div>
+              <div class="m-links"><span></span><span></span><span></span></div>
+            </div>
+            <div class="m-hero-title" style="background:var(--blue-soft)"></div>
+            <div class="m-hero-sub"></div>
+            <div class="m-btn" style="background:var(--blue)"></div>
+            <div class="m-feat-grid">
+              <div class="m-feat">
+                <div class="m-feat-icon"></div><span></span><span></span>
+              </div>
+              <div class="m-feat">
+                <div class="m-feat-icon"></div><span></span><span></span>
+              </div>
+              <div class="m-feat">
+                <div class="m-feat-icon"></div><span></span><span></span>
+              </div>
+              <div class="m-feat">
+                <div class="m-feat-icon"></div><span></span><span></span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="proj-info">
+          <h3>Landing page — produit SaaS</h3>
+          <p>Page d'accueil pour le lancement d'un outil web : accroche claire, grille de fonctionnalités, appels à
+            l'action répétés. Légère intégration JS pour les animations au défilement.</p>
+          <div class="proj-tags"><span>Interactions</span><span>Mise en page</span><span>Animations douces</span></div>
+        </div>
+      </div>
+
+      <div class="proj-card reveal">
+        <div class="mock">
+          <div class="mock-bar"><span></span><span></span><span></span>
+            <div class="mock-url">client-portfolio.com</div>
+          </div>
+          <div class="mock-canvas debug">
+            <div class="m-nav">
+              <div class="m-logo" style="background:var(--green)"></div>
+              <div class="m-links"><span></span><span></span><span></span></div>
+            </div>
+            <div class="m-split">
+              <div class="m-half before">
+                <div class="m-half-label">avant</div>
+                <div class="m-half-row">
+                  <div class="m-broken-img"></div>
+                  <div class="m-half-lines">
+                    <span class="line crooked" style="width:88%"></span>
+                    <span class="line shift"></span>
+                  </div>
+                </div>
+                <div class="m-broken-btn"></div>
+              </div>
+              <div class="m-half after">
+                <div class="m-half-label">après</div>
+                <div class="m-half-row">
+                  <div class="m-ok-img"></div>
+                  <div class="m-half-lines">
+                    <span class="line" style="width:75%"></span>
+                    <span class="line" style="width:50%"></span>
+                  </div>
+                </div>
+                <div class="m-fixed-wrap">
+                  <div class="m-fixed-btn"></div>
+                  <div class="m-fixed-check"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="proj-info">
+          <h3>Corrections de bugs & optimisation</h3>
+          <p>Intervention sur un site existant : menu mobile cassé, images non optimisées, espacements incohérents.
+            Diagnostic complet suivi de corrections ciblées, sans avoir besoin d'une refonte totale.</p>
+          <div class="proj-tags"><span>Correction de bugs</span><span>Site plus rapide</span><span>Adapté à tous les
+              écrans</span></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="process">
+      <div class="eyebrow"><span class="num">04</span> Les étapes</div>
+      <h2 class="title">Comment ça se passe</h2>
+      <p class="lede">Quatre étapes simples, de votre premier message à la mise en ligne.</p>
+      <div class="process-list">
+        <div class="p-step reveal">
+          <div class="p-num">01</div>
+          <div>
+            <h4>Brief</h4>
+            <p>Vous m'expliquez ce dont vous avez besoin — même si c'est encore un peu flou. Page, style, contenu, sites
+              que vous aimez. Je poserai les questions qui manquent, sans vous faire remplir un formulaire de 40 lignes.
+            </p>
+          </div>
+        </div>
+        <div class="p-step reveal">
+          <div class="p-num">02</div>
+          <div>
+            <h4>Maquette rapide</h4>
+            <p>Je vous montre une structure initiale avant d'écrire la moindre ligne de vrai code, pour qu'on soit
+              d'accord ensemble sur la direction.</p>
+          </div>
+        </div>
+        <div class="p-step reveal">
+          <div class="p-num">03</div>
+          <div>
+            <h4>Développement</h4>
+            <p>Construction propre en HTML/CSS/JS, testée sur mobile, tablette et ordinateur.</p>
+          </div>
+        </div>
+        <div class="p-step reveal">
+          <div class="p-num">04</div>
+          <div>
+            <h4>Livraison</h4>
+            <p>Fichiers transmis ou déploiement direct, avec un point sur les derniers ajustements.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="contact">
+      <div class="contact-box reveal">
+        <div>
+          <h2>Un site à construire, ou à réparer ?</h2>
+          <p>Envoyez-moi un e-mail avec ce dont vous avez besoin, même si c'est encore un peu vague — je vous réponds
+            sous 24h avec un plan clair et un calendrier.</p>
+        </div>
+        <a class="btn btn-primary" href="mailto:kenji.vanzetto12@gmail.com">kenji.vanzetto12@gmail.com →</a>
+      </div>
+    </section>
+
+    <footer>
+      <p>© 2026 Kenji Terada — fait avec du café et beaucoup trop d'onglets ouverts</p>
+      <p>Développeur Front-End & Spécialiste Landing Pages</p>
+    </footer>
+
+  </main>
+
+  <script>
+    // Terminal typing sequence
+    const lines = [
+      { p: '$ ', t: 'whoami', out: false },
+      { p: '', t: 'kenji-terada — développeur front-end', out: true },
+      { p: '$ ', t: 'cat competences.txt', out: false },
+      { p: '', t: 'Site vitrine · Responsive mobile · Chargement rapide', out: true },
+      { p: '$ ', t: './build_landing_page.sh', out: false },
+      { p: '', t: 'compilation du markup ... stylisation ... optimisation', out: true },
+      { p: '', t: 'terminé ✓ (café : 2)', out: true },
+    ];
+    const el = document.getElementById('termBody');
+    let li = 0, ci = 0;
+
+    function typeLine() {
+      if (li >= lines.length) {
+        el.insertAdjacentHTML('beforeend', '<span class="cursor"></span>');
+        return;
+      }
+      const line = lines[li];
+      if (ci === 0) {
+        const row = document.createElement('div');
+        row.innerHTML = (line.p ? '<span class="prompt">' + line.p + '</span>' : '') +
+          '<span class="' + (line.out ? 'out' : '') + '" id="cur-line-' + li + '"></span>';
+        el.appendChild(row);
+      }
+      const cur = document.getElementById('cur-line-' + li);
+      if (ci <= line.t.length) {
+        cur.textContent = line.t.slice(0, ci);
+        ci++;
+        setTimeout(typeLine, line.out ? 14 : 32);
+      } else {
+        ci = 0; li++;
+        setTimeout(typeLine, line.out ? 260 : 120);
+      }
+    }
+    typeLine();
+
+    // Scroll reveal
+    const obs = new IntersectionObserver((entries) => {
+      entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); obs.unobserve(e.target); } });
+    }, { threshold: 0.15 });
+    document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+  </script>
+
+</body>
+
+</html>
